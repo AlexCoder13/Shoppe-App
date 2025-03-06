@@ -7,19 +7,13 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		3A058E9F2D77A4680057AF3D /* OnlineStore-2nd-Challenge.app */ = {isa = PBXFileReference; lastKnownFileType = wrapper.application; name = "OnlineStore-2nd-Challenge.app"; path = "../../../../../../../../Documents/Apps/Shoppe App/OnlineStore-2nd-Challenge.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		6BD3A27F2D74A9C500034C10 /* OnlineStore-2nd-Challenge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "OnlineStore-2nd-Challenge.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6BD3A27F2D74A9C500034C10 /* OnlineStore-2nd-Challenge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = "OnlineStore-2nd-Challenge.app"; path = "/Users/aleksandrsemenov/Documents/Apps/Shoppe App/build/Debug-iphoneos/OnlineStore-2nd-Challenge.app"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		3A058E9E2D77A4680057AF3D /* OnlineStore-2nd-Challenge 3 */ = {
+		3A058F512D78F4C50057AF3D /* OnlineStore-2nd-Challenge 4 */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "OnlineStore-2nd-Challenge 3";
-			sourceTree = "<group>";
-		};
-		3A058EA62D77A4680057AF3D /* Category */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = Category;
+			path = "OnlineStore-2nd-Challenge 4";
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -35,30 +29,11 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3A058EA02D77A4680057AF3D /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				3A058E9F2D77A4680057AF3D /* OnlineStore-2nd-Challenge.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		6BD3A2762D74A9C500034C10 = {
 			isa = PBXGroup;
 			children = (
-				3A058E9E2D77A4680057AF3D /* OnlineStore-2nd-Challenge 3 */,
-				3A058EA02D77A4680057AF3D /* Products */,
-				3A058EA62D77A4680057AF3D /* Category */,
-				6BD3A2802D74A9C500034C10 /* Products */,
+				3A058F512D78F4C50057AF3D /* OnlineStore-2nd-Challenge 4 */,
 			);
-			sourceTree = "<group>";
-		};
-		6BD3A2802D74A9C500034C10 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				6BD3A27F2D74A9C500034C10 /* OnlineStore-2nd-Challenge.app */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -108,7 +83,7 @@
 			mainGroup = 6BD3A2762D74A9C500034C10;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 6BD3A2802D74A9C500034C10 /* Products */;
+			productRefGroup = 6BD3A2762D74A9C500034C10;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
