@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		6BD3A27F2D74A9C500034C10 /* OnlineStore-2nd-Challenge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = "OnlineStore-2nd-Challenge.app"; path = "/Users/aleksandrsemenov/Documents/Apps/Shoppe App/build/Debug-iphoneos/OnlineStore-2nd-Challenge.app"; sourceTree = "<absolute>"; };
+		3AB1D5E52D79A6F600BD5DB7 /* OnlineStore-2nd-Challenge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = "OnlineStore-2nd-Challenge.app"; path = "/Users/aleksandrsemenov/Documents/Apps/Shoppe App/build/Debug-iphoneos/OnlineStore-2nd-Challenge.app"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		3A058F512D78F4C50057AF3D /* OnlineStore-2nd-Challenge 4 */ = {
+		3AB1D64E2D7A48DE00BD5DB7 /* OnlineStore-2nd-Challenge 5 */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "OnlineStore-2nd-Challenge 4";
+			path = "OnlineStore-2nd-Challenge 5";
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -32,7 +32,7 @@
 		6BD3A2762D74A9C500034C10 = {
 			isa = PBXGroup;
 			children = (
-				3A058F512D78F4C50057AF3D /* OnlineStore-2nd-Challenge 4 */,
+				3AB1D64E2D7A48DE00BD5DB7 /* OnlineStore-2nd-Challenge 5 */,
 			);
 			sourceTree = "<group>";
 		};
@@ -55,7 +55,7 @@
 			packageProductDependencies = (
 			);
 			productName = "OnlineStore-2nd-Challenge";
-			productReference = 6BD3A27F2D74A9C500034C10 /* OnlineStore-2nd-Challenge.app */;
+			productReference = 3AB1D5E52D79A6F600BD5DB7 /* OnlineStore-2nd-Challenge.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
