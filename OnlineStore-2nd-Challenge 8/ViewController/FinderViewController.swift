@@ -59,9 +59,7 @@ final class FinderViewController: UIViewController {
             searchHistoryModel.addItem(searchText)
             finderView.historyCollection.reloadData()
             
-            let resultVC = UIViewController()
-            resultVC.view.backgroundColor = .white
-            resultVC.title = "Results for: \(searchText)"
+            let resultVC = SearchResultsViewController(searchQuery: searchText)
             navigationController?.pushViewController(resultVC, animated: true)
         }
         finderView.searchField.resignFirstResponder()
