@@ -35,7 +35,7 @@ final class CartViewController: UIViewController {
     
     var badgeQuantity: Int = 1 {
         didSet {
-            badgeLabel.text = "\(badgeQuantity)"
+            badgeLabel.text = "\(cartItems.count)"
         }
     }
     
@@ -65,7 +65,7 @@ final class CartViewController: UIViewController {
     
     var amountLabel: UILabel = {
         let label = UILabel()
-        label.text = "n"
+        label.text = "$%.2f"
         label.textColor = .black
         label.font = UIFont.systemFont(ofSize: 18)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -82,6 +82,16 @@ final class CartViewController: UIViewController {
         return button
     }()
     
+    private lazy var cartIsEmpty: UILabel = {
+        let element = UILabel()
+        element.text = "There's nothing here yet"
+        element.font = UIFont.systemFont(ofSize: 30)
+        element.textColor = .black
+        element.isHidden = true
+        element.translatesAutoresizingMaskIntoConstraints = false
+        return element
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -91,6 +101,7 @@ final class CartViewController: UIViewController {
         DispatchQueue.main.async {
             self.reloadCartProducts()
             self.totalSum()
+            self.updateTotalAmount()
         }
 
     }
@@ -98,6 +109,8 @@ final class CartViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         reloadCartProducts()
+        //totalSum()
+        updateTotalAmount()
         tableView.reloadData()
     }
     
@@ -106,7 +119,6 @@ final class CartViewController: UIViewController {
         cartItems = favoriteManager.cartArray
         print("добавленные товары \(cartItems.count)")
         tableView.reloadData()
-        //updateTotalAmount()
     }
     
     private func setupTableView() {
@@ -119,7 +131,6 @@ final class CartViewController: UIViewController {
         sum = Double(cartItems.reduce(0.00) { partialResult, nextValue in
             return partialResult + nextValue.price
         })
-        amountLabel.text = sum.formatted()
     }
     
     private func setupUI() {
@@ -127,6 +138,7 @@ final class CartViewController: UIViewController {
         view.addSubview(badgeLabel)
         view.addSubview(tableView)
         view.addSubview(bottomView)
+        view.addSubview(cartIsEmpty)
         bottomView.addSubview(totalLabel)
         bottomView.addSubview(amountLabel)
         bottomView.addSubview(checkoutButton)
@@ -146,6 +158,9 @@ final class CartViewController: UIViewController {
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             tableView.bottomAnchor.constraint(equalTo: bottomView.topAnchor, constant: -10),
+            
+            cartIsEmpty.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            cartIsEmpty.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             
             bottomView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             bottomView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -170,14 +185,6 @@ final class CartViewController: UIViewController {
         navigationController?.pushViewController(paymentVC, animated: true)
     }
     
-    //    private func updateTotalAmount() {
-    //        let total = cartItems.reduce(0.0) { result, item in
-    //            let price = Double(item.price.replacingOccurrences(of: "$", with: "")) ?? 0.0
-    //            return result + (price * Double(item.quantity))
-    //        }
-    //        amountLabel.text = String(format: "$%.2f", total)
-    //        badgeLabel.text = "\(cartItems.reduce(0) { $0 + $1.quantity })"
-    //    }
 }
 
 // MARK: - UITableViewDataSource, UITableViewDelegate
@@ -189,6 +196,7 @@ extension CartViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CartCell", for: indexPath) as! CartCell
         cell.configure(with: cartItems[indexPath.row])
+        cell.selectionStyle = .none
         cell.delegate = self
         return cell
     }
@@ -203,6 +211,7 @@ extension CartViewController: CartCellDelegate {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
         let product = cartItems[indexPath.row]
         sum += product.price
+        favoriteManager.addToCart(product: product)
         updateTotalAmount()
     }
     
@@ -210,6 +219,7 @@ extension CartViewController: CartCellDelegate {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
         let product = cartItems[indexPath.row]
         sum -= product.price
+        favoriteManager.removeProductsFromCart(product: product)
         updateTotalAmount()
     }
     
@@ -217,13 +227,26 @@ extension CartViewController: CartCellDelegate {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
         let product = cartItems[indexPath.row]
         sum -= product.price * Double(cell.quantity)
+        
         cartItems.remove(at: indexPath.row)
         tableView.deleteRows(at: [indexPath], with: .automatic)
+        favoriteManager.removeProductsFromCart(product: product)
         updateTotalAmount()
     }
     
     private func updateTotalAmount() {
+        totalSum()
+        if sum == 0.00 {
+            cartIsEmpty.isHidden = false
+            checkoutButton.isEnabled = false
+            checkoutButton.backgroundColor = #colorLiteral(red: 0.8235358596, green: 0.8059974909, blue: 0.7952066064, alpha: 1)
+        } else {
+            cartIsEmpty.isHidden = true
+            checkoutButton.isEnabled = true
+            checkoutButton.backgroundColor = .blue
+        }
         amountLabel.text = String(format: "$%.2f", sum)
+        badgeLabel.text = "\(cartItems.count)"
     }
     
 }

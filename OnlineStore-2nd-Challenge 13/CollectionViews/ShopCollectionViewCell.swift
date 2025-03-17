@@ -37,7 +37,7 @@ final class ShopCollectionViewCell: UICollectionViewCell {
     func configure(model: Product) {
         imageView.image = UIImage(named: model.image)
         descriptionLabel.text = model.description
-        priceLabel.text = model.price.formatted()
+        priceLabel.text = "$" + model.price.formatted()
         currentProduct = model
         
         isSelect = favoriteManager.isFavorite(product: model)
@@ -77,7 +77,7 @@ private extension ShopCollectionViewCell {
     }
     
     func setupButtonAddCard() {
-        buttonBuy.addTarget(self, action: #selector(tapAddCard), for: .touchUpInside)
+        buttonBuy.addTarget(self, action: #selector(tapAddCard(_:)), for: .touchUpInside)
     }
     
     func setupButtonLike() {
@@ -88,12 +88,26 @@ private extension ShopCollectionViewCell {
         buttonLike.addTarget(self, action: #selector(buttonLikeTapped), for: .touchUpInside)
     }
     
-    @objc func tapAddCard() {
+    @objc func tapAddCard(_ sender: UIButton) {
         guard let product = currentProduct else {return}
         favoriteManager.addToCart(product: product)
         print("product add to cart")
+
+        animateButton(sender)
     }
     
+    private func animateButton(_ button: UIButton) {
+        // Анимация уменьшения масштаба
+        UIView.animate(withDuration: 0.1, animations: {
+            button.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
+        }) { _ in
+            // Возвращаем кнопку к исходному размеру
+            UIView.animate(withDuration: 0.1) {
+                button.transform = CGAffineTransform.identity
+            }
+        }
+    }
+
     @objc func buttonLikeTapped() {
         guard let product = currentProduct else {return}
         if isSelect {
