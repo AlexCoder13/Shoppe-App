@@ -146,8 +146,10 @@ final class FavoriteManager {
     static let shared = FavoriteManager()
     
     private var favoriteProduct: [Product] = []
+    private var cartProduct: [Product] = []
     private let defaults = UserDefaults.standard
     private let favoriteKey = UserDefaultsStorageKeys.favoriteProducts
+    private let cartKey = UserDefaultsStorageKeys.cart
     
     var favoriteArray: [Product] {
         get {
@@ -155,12 +157,22 @@ final class FavoriteManager {
         }
         set {
             favoriteProduct = newValue
-            saveProduct()
+            saveFavoriteProduct()
+        }
+    }
+    
+    var cartArray: [Product] {
+        get {
+            return cartProduct
+        }
+        set {
+            cartProduct = newValue
+            saveCardProduct()
         }
     }
     
     private init() {
-        loadProducts()
+        //loadFavoriteProducts()
     }
     
     func userDefaultsExists(key: String) -> Bool {
@@ -171,22 +183,33 @@ final class FavoriteManager {
     }
     
     func addToFavorite(product: Product) {
-        guard !isFavorite(product: product) else { return}
-        favoriteProduct.append(product)
-        saveProduct()
-    }
-    
-    func removeFromFavorite(product: Product) {
-        guard let index = favoriteProduct.firstIndex(of: product) else {return}
-        favoriteProduct.remove(at: index)
-        saveProduct()
+        guard !isFavorite(product: product) else { return }
+        favoriteArray.append(product)
+        saveFavoriteProduct()
     }
     
     func isFavorite(product: Product) -> Bool {
         favoriteProduct.contains(product)
     }
     
-    private func saveProduct() {
+    func addToCart(product: Product) {
+        guard !isSelected(product: product) else { return}
+        cartProduct.append(product)
+        //NotificationCenter.default.post(name: .cartDidUpdate, object: nil)
+        saveCardProduct()
+    }
+    
+    func isSelected(product: Product) -> Bool {
+        cartProduct.contains(product)
+    }
+    
+    func removeFromFavorite(product: Product) {
+        guard let index = favoriteProduct.firstIndex(of: product) else { return }
+        favoriteArray.remove(at: index)
+        saveFavoriteProduct()
+    }
+    
+    private func saveFavoriteProduct() {
         do {
             let encodeData = try JSONEncoder().encode(favoriteProduct)
             defaults.set(encodeData, forKey: favoriteKey.rawValue)
@@ -195,12 +218,29 @@ final class FavoriteManager {
         }
     }
     
-    private func loadProducts() {
-        guard let savedData = defaults.data(forKey: favoriteKey.rawValue) else { return }
+    private func saveCardProduct() {
         do {
-            favoriteProduct = try JSONDecoder().decode([Product].self, from: savedData)
+            let encodeData = try JSONEncoder().encode(cartProduct)
+            defaults.set(encodeData, forKey: cartKey.rawValue)
         } catch {
-            print("Ошибка загрузки избранных товаров: \(error)")
+            print("Ошибка сохранения избранного продукта: \(error)")
         }
+    }
+    
+    func loadCartProducts() -> [Product]{
+        if let addToCardProducts = UserDefaults.standard.data(forKey: cartKey.rawValue),
+           let products = try? JSONDecoder().decode([Product].self, from: addToCardProducts) {
+            return products
+        }
+        return []
+    }
+    
+    
+    func loadFavoriteProducts() -> [Product] {
+        if let favoriteProducts = UserDefaults.standard.data(forKey: favoriteKey.rawValue),
+           let products = try? JSONDecoder().decode([Product].self, from: favoriteProducts) {
+            return products
+        }
+        return []
     }
 }

@@ -11,9 +11,9 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		3A09D8742D8624DB008B8D72 /* OnlineStore-2nd-Challenge 11 */ = {
+		3A09D8B72D8800E1008B8D72 /* OnlineStore-2nd-Challenge 12 */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "OnlineStore-2nd-Challenge 11";
+			path = "OnlineStore-2nd-Challenge 12";
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -32,7 +32,7 @@
 		6BD3A2762D74A9C500034C10 = {
 			isa = PBXGroup;
 			children = (
-				3A09D8742D8624DB008B8D72 /* OnlineStore-2nd-Challenge 11 */,
+				3A09D8B72D8800E1008B8D72 /* OnlineStore-2nd-Challenge 12 */,
 			);
 			sourceTree = "<group>";
 		};

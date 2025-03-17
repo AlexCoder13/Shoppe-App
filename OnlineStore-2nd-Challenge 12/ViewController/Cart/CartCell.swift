@@ -16,6 +16,9 @@ protocol CartCellDelegate: AnyObject {
 final class CartCell: UITableViewCell {
     
     weak var delegate: CartCellDelegate?
+    private var product: Product?
+    
+    var idProduct: Int = -1
     
     private let productImageView: UIImageView = {
         let imageView = UIImageView()
@@ -74,7 +77,7 @@ final class CartCell: UITableViewCell {
         return button
     }()
     
-    private let deleteButton: UIButton = {
+    var deleteButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "trash"), for: .normal)
         button.tintColor = .red
@@ -82,7 +85,7 @@ final class CartCell: UITableViewCell {
         return button
     }()
     
-    private let quantityLabel: UILabel = {
+    let quantityLabel: UILabel = {
         let label = UILabel()
         label.backgroundColor = UIColor(red: 229/255, green: 235/255, blue: 252/255, alpha: 1.0)
         label.layer.cornerRadius = 7
@@ -95,7 +98,7 @@ final class CartCell: UITableViewCell {
         return label
     }()
     
-    private var quantity: Int = 1 {
+    var quantity: Int = 1 {
         didSet {
             quantityLabel.text = "\(quantity)"
         }
@@ -164,14 +167,29 @@ final class CartCell: UITableViewCell {
         delegate?.didTapDecreaseButton(on: self)
     }
 
-    @objc private func deleteButtonTapped() {
+    @objc func deleteButtonTapped() {
         delegate?.didTapDeleteButton(on: self)
+        print("кнопка удаления товара из корзины нажата")
     }
     
-    func configure(with item: CartItem) {
-        productImageView.image = UIImage(named: item.imageName)
+    func configure(with item: Product) {
+        self.product = item
         titleLabel.text = item.title
-        priceLabel.text = item.price
+        priceLabel.text = item.price.formatted()
+        sizeLabel.text = item.category
+        if let imageURL = URL(string: item.image) {
+            NetworkService.shared.fetchImage(from: imageURL.absoluteString) { result in
+                DispatchQueue.main.async {
+                    switch result {
+                    case .success(let image):
+                        self.productImageView.image = image
+                    case .failure(let error):
+                        print("Ошибка загрузки изображения: \(error.localizedDescription)")
+                        self.productImageView.image = UIImage(systemName: "xmark.circle")
+                    }
+                }
+            }
+        }
     }
     
     required init?(coder: NSCoder) {

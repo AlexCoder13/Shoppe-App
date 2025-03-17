@@ -11,19 +11,22 @@ class PaymentViewController: UIViewController {
     
     // MARK: - Variables
     
-    var cartItems: [CartItem]
+    var cartItems: [Product] = FavoriteManager.shared.loadCartProducts()
+    private let favoriteManager = FavoriteManager.shared
+    var totalAmount: Double
     
-    init(_ cartItems: [CartItem]) {
+    init(_ cartItems: [Product], totalAmount: Double) {
         self.cartItems = cartItems
+        self.totalAmount = totalAmount
         super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
         //значение по умолчанию
-        cartItems = [
-            CartItem(imageName: "Image", title: "Lorem ipsum dolor sit amet consectetur.", price: "$99,00", quantity: 2),
-            CartItem(imageName: "Image", title: "Lorem ipsum dolor sit amet consectetur.", price: "$99,00", quantity: 1)
-        ]
+        //        cartItems = [
+        //            CartItem(imageName: "Image", title: "Lorem ipsum dolor sit amet consectetur.", price: "$99,00", quantity: 2),
+        //            CartItem(imageName: "Image", title: "Lorem ipsum dolor sit amet consectetur.", price: "$99,00", quantity: 1)
+        //        ]
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -48,15 +51,15 @@ class PaymentViewController: UIViewController {
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 28, weight: .bold)
         label.translatesAutoresizingMaskIntoConstraints = false
-       return label
+        return label
     }()
-
+    
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
     }()
-
+    
     private let contentView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -67,11 +70,11 @@ class PaymentViewController: UIViewController {
         let element = UIStackView()
         element.axis = .vertical
         element.spacing = 10
-
+        
         element.translatesAutoresizingMaskIntoConstraints = false
         return element
     }()
-
+    
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.separatorStyle = .none
@@ -89,48 +92,48 @@ class PaymentViewController: UIViewController {
         element.translatesAutoresizingMaskIntoConstraints = false
         return element
     }()
-
-//    private let shippingOptionsLabel: UILabel = {
-//        let label = UILabel()
-//        label.text = "Shipping Options\n- [ ] Standard 5-7 days\n  FREE\n\n- [ ] Express 1-2 days\n  $12,00\n\nDelivered on or before Thursday, 23 April 2020"
-//        label.numberOfLines = 0
-//        label.font = UIFont.systemFont(ofSize: 14)
-//        label.textColor = .darkGray
-//        label.translatesAutoresizingMaskIntoConstraints = false
-//        return label
-//    }()
-
-//    private let paymentMethodLabel: UILabel = {
-//        let label = UILabel()
-//        label.text = "Payment Method\n- [ ] Card"
-//        label.numberOfLines = 0
-//        label.font = UIFont.systemFont(ofSize: 16)
-//        label.textColor = .darkGray
-//        label.translatesAutoresizingMaskIntoConstraints = false
-//        return label
-//    }()
-
-//    private let totalLabel: UILabel = {
-//        let label = UILabel()
-//        label.text = "Total $34,00"
-//        label.font = UIFont.boldSystemFont(ofSize: 18)
-//        label.textColor = .black
-//        label.translatesAutoresizingMaskIntoConstraints = false
-//        return label
-//    }()
-
-            let payButton: UIButton = {
-                let button = UIButton(type: .system)
-                button.setTitle("Pay", for: .normal)
-                button.setTitleColor(.white, for: .normal)
-                button.backgroundColor = .black
-                button.layer.cornerRadius = 11
-                button.translatesAutoresizingMaskIntoConstraints = false
-                return button
-            }()
-
+    
+    //    private let shippingOptionsLabel: UILabel = {
+    //        let label = UILabel()
+    //        label.text = "Shipping Options\n- [ ] Standard 5-7 days\n  FREE\n\n- [ ] Express 1-2 days\n  $12,00\n\nDelivered on or before Thursday, 23 April 2020"
+    //        label.numberOfLines = 0
+    //        label.font = UIFont.systemFont(ofSize: 14)
+    //        label.textColor = .darkGray
+    //        label.translatesAutoresizingMaskIntoConstraints = false
+    //        return label
+    //    }()
+    
+    //    private let paymentMethodLabel: UILabel = {
+    //        let label = UILabel()
+    //        label.text = "Payment Method\n- [ ] Card"
+    //        label.numberOfLines = 0
+    //        label.font = UIFont.systemFont(ofSize: 16)
+    //        label.textColor = .darkGray
+    //        label.translatesAutoresizingMaskIntoConstraints = false
+    //        return label
+    //    }()
+    
+    //    private let totalLabel: UILabel = {
+    //        let label = UILabel()
+    //        label.text = "Total $34,00"
+    //        label.font = UIFont.boldSystemFont(ofSize: 18)
+    //        label.textColor = .black
+    //        label.translatesAutoresizingMaskIntoConstraints = false
+    //        return label
+    //    }()
+    
+    let payButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Pay", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = .black
+        button.layer.cornerRadius = 11
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     // MARK: - Lifecycle
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -138,10 +141,24 @@ class PaymentViewController: UIViewController {
         setupCollectionView()
         setupViews()
         setConstraints()
+        
+        DispatchQueue.main.async {
+            self.reloadCartProducts()
+            self.createTotalView()
+            //self.totalSum()
+            self.tableView.reloadData()
+        }
     }
-
-    // MARK: - UI Setup
     
+    func reloadCartProducts() {
+        cartItems = favoriteManager.cartArray
+        print("добавленные товары \(cartItems.count)")
+        //updateTotalAmount()
+    }
+    
+    
+    
+    // MARK: - UI Setup
     private func setupViews() {
         
         navigationItem.hidesBackButton = false
@@ -155,11 +172,11 @@ class PaymentViewController: UIViewController {
             action: #selector(goBack)
         )
         backButton.tintColor = .black
-
+        
         navigationItem.leftBarButtonItem = backButton
-
-
-
+        
+        
+        
         // Добавляем ScrollView
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
@@ -174,7 +191,7 @@ class PaymentViewController: UIViewController {
         mainStackView.addArrangedSubview(createTotalView())
         
         contentView.addSubview(mainStackView)
-
+        
         // Добавляем действие для кнопки Pay
         payButton.addTarget(self, action: #selector(payButtonTapped), for: .touchUpInside)
     }
@@ -194,30 +211,30 @@ class PaymentViewController: UIViewController {
             
             titleOfLabel.leadingAnchor.constraint(equalTo: navigation.leadingAnchor, constant: 16),
             titleOfLabel.centerYAnchor.constraint(equalTo: navigation.centerYAnchor),
-
+            
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-
+            
             contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-
+            
             mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
             mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16),
-
+            
             
             payButton.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
-
+    
     // MARK: - Helper Methods
-
+    
     private func createSectionTitle(_ title: String) -> UILabel {
         let label = UILabel()
         label.text = title
@@ -272,7 +289,7 @@ class PaymentViewController: UIViewController {
             element.translatesAutoresizingMaskIntoConstraints = false
             return element
         }()
-
+        
         grayView.addSubview(stackView)
         grayView.addSubview(editShippingButton)
         stackView.addArrangedSubview(titleLabel)
@@ -296,7 +313,7 @@ class PaymentViewController: UIViewController {
     }
     
     //создание раздела с товарами
-    private func createItemsView() -> UIView {
+    func createItemsView() -> UIView {
         let itemsView: UIView = {
             let element = UIView()
             //element.backgroundColor = .yellow
@@ -356,7 +373,7 @@ class PaymentViewController: UIViewController {
         NSLayoutConstraint.activate([
             
             itemsView.heightAnchor.constraint(equalToConstant: CGFloat(cartItems.count * 75 + 50)),
-
+            
             titleItemsStackView.topAnchor.constraint(equalTo: itemsView.topAnchor),
             titleItemsStackView.leadingAnchor.constraint(equalTo: itemsView.leadingAnchor),
             titleItemsStackView.heightAnchor.constraint(equalToConstant: 35),
@@ -376,14 +393,14 @@ class PaymentViewController: UIViewController {
             addVaucherButton.trailingAnchor.constraint(equalTo: titleItemsStackView.trailingAnchor),
             addVaucherButton.heightAnchor.constraint(equalTo: titleItemsStackView.heightAnchor),
             addVaucherButton.widthAnchor.constraint(equalTo: titleItemsStackView.widthAnchor, multiplier: 0.3),
-
+            
             tableView.topAnchor.constraint(equalTo: titleItemsStackView.bottomAnchor, constant: 0),
             tableView.leadingAnchor.constraint(equalTo: itemsView.leadingAnchor, constant: 0),
             tableView.trailingAnchor.constraint(equalTo: itemsView.trailingAnchor, constant: 0),
             tableView.bottomAnchor.constraint(equalTo: itemsView.bottomAnchor, constant: 0),
             //tableView.heightAnchor.constraint(equalToConstant: 40),
-
-            ])
+            
+        ])
         
         return itemsView
     }
@@ -393,7 +410,7 @@ class PaymentViewController: UIViewController {
         layout.minimumInteritemSpacing = 3
         layout.minimumLineSpacing = 3
         layout.itemSize = CGSize(width: 50, height: 30)
-//
+        //
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .white
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -425,14 +442,14 @@ class PaymentViewController: UIViewController {
             element.translatesAutoresizingMaskIntoConstraints = false
             return element
         }()
-
+        
         shippingView.addSubview(shippingStackView)
         shippingStackView.addArrangedSubview(titleLabel)
         shippingStackView.addArrangedSubview(collectionView)
         shippingStackView.addArrangedSubview(deliveryDateLabel)
         deliveryDateLabel.text = "It will be delivered on" + afterNDays(7)
         collectionView.register(ShippingOptionCell.self, forCellWithReuseIdentifier: "ShippingOptionCell")
-
+        
         let firstItemPath = IndexPath(item: 0, section: 0)
         collectionView.selectItem(at: firstItemPath, animated: false, scrollPosition: .left)
         
@@ -443,7 +460,7 @@ class PaymentViewController: UIViewController {
             shippingStackView.leadingAnchor.constraint(equalTo: shippingView.leadingAnchor, constant: 0),
             shippingStackView.widthAnchor.constraint(equalTo: shippingView.widthAnchor),
             shippingStackView.heightAnchor.constraint(equalToConstant: 145),
-
+            
             titleLabel.heightAnchor.constraint(equalToConstant: 40),
             
             collectionView.heightAnchor.constraint(equalToConstant: 70),
@@ -452,7 +469,7 @@ class PaymentViewController: UIViewController {
             
             deliveryDateLabel.heightAnchor.constraint(equalToConstant: 20),
             
-            ])
+        ])
         
         return shippingView
     }
@@ -515,18 +532,18 @@ class PaymentViewController: UIViewController {
             editPaymentMethodButton.topAnchor.constraint(equalTo: paymentMethodView.topAnchor),
             editPaymentMethodButton.widthAnchor.constraint(equalTo: paymentMethodView.widthAnchor, multiplier: 0.08),
             editPaymentMethodButton.heightAnchor.constraint(equalTo: paymentMethodView.widthAnchor, multiplier: 0.08),
-
+            
             editCardButton.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 5),
             editCardButton.leadingAnchor.constraint(equalTo: paymentMethodView.leadingAnchor),
             editCardButton.heightAnchor.constraint(equalToConstant: 35),
             editCardButton.widthAnchor.constraint(equalTo: paymentMethodView.widthAnchor, multiplier: 0.2),
-
-            ])
+            
+        ])
         
         return paymentMethodView
     }
     
-    private func createTotalView() -> UIView {
+    func createTotalView() -> UIView {
         let bottomView: UIView = {
             let view = UIView()
             view.backgroundColor = UIColor(red: 245/255, green: 245/255, blue: 245/255, alpha: 1.0)
@@ -545,22 +562,23 @@ class PaymentViewController: UIViewController {
         
         let amountLabel: UILabel = {
             let label = UILabel()
-            label.text = "$34,00"
+            label.text = String(format: "$%.2f", totalAmount)
             label.textColor = .black
             label.font = UIFont.systemFont(ofSize: 18)
             label.translatesAutoresizingMaskIntoConstraints = false
             return label
         }()
+       
         
         bottomView.addSubview(totalLabel)
         bottomView.addSubview(amountLabel)
         bottomView.addSubview(payButton)
         
         payButton.addTarget(self, action: #selector(payButtonTapped), for: .touchUpInside)
-
+        
         NSLayoutConstraint.activate([
             bottomView.heightAnchor.constraint(equalToConstant: 50),
- 
+            
             totalLabel.leadingAnchor.constraint(equalTo: bottomView.leadingAnchor, constant: 20),
             totalLabel.centerYAnchor.constraint(equalTo: bottomView.centerYAnchor),
             
@@ -575,9 +593,9 @@ class PaymentViewController: UIViewController {
         
         return bottomView
     }
-   
+    
     // MARK: - Actions
-
+    
     @objc func payButtonTapped() {
         // Создаем кастомный UIAlertController
         let customAlert = CustomAlertViewController()
@@ -689,7 +707,7 @@ private func afterNDays(_ countDays: Int) -> String {
     let dateFormatter = DateFormatter() //создаем DateFormatter для форматирования даты в стркоу
     dateFormatter.dateFormat = "EEEE, MMMM, d, yyyy"
     let dateString = dateFormatter.string(from: futureDate ?? currentDate) //преобразуем дату в строку
-
+    
     return dateString
 }
 
