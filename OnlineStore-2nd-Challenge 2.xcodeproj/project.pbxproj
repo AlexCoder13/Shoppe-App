@@ -6,34 +6,64 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		3E4B8F6E2D75A68D00FE765C /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 3E4B8F6D2D75A68D00FE765C /* FirebaseAuth */; };
+		CEF3C2C62D887815008CBE8B /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = CEF3C2C52D887815008CBE8B /* README.md */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
-		3A09D9732D8A1A5B008B8D72 /* OnlineStore-2nd-Challenge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = "OnlineStore-2nd-Challenge.app"; path = "/Users/aleksandrsemenov/Documents/Apps/Shoppe App/build/Debug-iphoneos/OnlineStore-2nd-Challenge.app"; sourceTree = "<absolute>"; };
-		3A09DA2D2D8A1AB5008B8D72 /* OnlineStore-2nd-Challenge 2.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = "OnlineStore-2nd-Challenge 2.xcodeproj"; sourceTree = SOURCE_ROOT; };
+		6BD3A27F2D74A9C500034C10 /* OnlineStore-2nd-Challenge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "OnlineStore-2nd-Challenge.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CEF3C2C52D887815008CBE8B /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		6BD3A2912D74A9CA00034C10 /* Exceptions for "OnlineStore-2nd-Challenge" folder in "OnlineStore-2nd-Challenge" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 6BD3A27E2D74A9C500034C10 /* OnlineStore-2nd-Challenge */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		6BD3A2812D74A9C600034C10 /* OnlineStore-2nd-Challenge */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				6BD3A2912D74A9CA00034C10 /* Exceptions for "OnlineStore-2nd-Challenge" folder in "OnlineStore-2nd-Challenge" target */,
+			);
+			path = "OnlineStore-2nd-Challenge";
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		6BD3A27C2D74A9C500034C10 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3E4B8F6E2D75A68D00FE765C /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3A09DA332D8A1AB5008B8D72 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		6BD3A2762D74A9C500034C10 = {
 			isa = PBXGroup;
 			children = (
-				3A09DA2D2D8A1AB5008B8D72 /* OnlineStore-2nd-Challenge 2.xcodeproj */,
+				CEF3C2C52D887815008CBE8B /* README.md */,
+				6BD3A2812D74A9C600034C10 /* OnlineStore-2nd-Challenge */,
+				6BD3A2802D74A9C500034C10 /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		6BD3A2802D74A9C500034C10 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6BD3A27F2D74A9C500034C10 /* OnlineStore-2nd-Challenge.app */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -51,11 +81,15 @@
 			);
 			dependencies = (
 			);
+			fileSystemSynchronizedGroups = (
+				6BD3A2812D74A9C600034C10 /* OnlineStore-2nd-Challenge */,
+			);
 			name = "OnlineStore-2nd-Challenge";
 			packageProductDependencies = (
+				3E4B8F6D2D75A68D00FE765C /* FirebaseAuth */,
 			);
 			productName = "OnlineStore-2nd-Challenge";
-			productReference = 3A09D9732D8A1A5B008B8D72 /* OnlineStore-2nd-Challenge.app */;
+			productReference = 6BD3A27F2D74A9C500034C10 /* OnlineStore-2nd-Challenge.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -82,15 +116,12 @@
 			);
 			mainGroup = 6BD3A2762D74A9C500034C10;
 			minimizedProjectReferenceProxies = 1;
-			preferredProjectObjectVersion = 77;
-			productRefGroup = 6BD3A2762D74A9C500034C10;
-			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 3A09DA332D8A1AB5008B8D72 /* Products */;
-					ProjectRef = 3A09DA2D2D8A1AB5008B8D72 /* OnlineStore-2nd-Challenge 2.xcodeproj */;
-				},
+			packageReferences = (
+				3E4B8F6C2D75A68D00FE765C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 6BD3A2802D74A9C500034C10 /* Products */;
+			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				6BD3A27E2D74A9C500034C10 /* OnlineStore-2nd-Challenge */,
@@ -103,6 +134,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEF3C2C62D887815008CBE8B /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -129,6 +161,7 @@
 				DEVELOPMENT_TEAM = Z4PKJ57KTJ;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "OnlineStore-2nd-Challenge/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = Shopping;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -161,6 +194,7 @@
 				DEVELOPMENT_TEAM = Z4PKJ57KTJ;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "OnlineStore-2nd-Challenge/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = Shopping;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -324,6 +358,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		3E4B8F6C2D75A68D00FE765C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.9.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		3E4B8F6D2D75A68D00FE765C /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3E4B8F6C2D75A68D00FE765C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 6BD3A2772D74A9C500034C10 /* Project object */;
 }
